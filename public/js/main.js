@@ -2,9 +2,7 @@ const chatForm = document.getElementById('chat-form');
 const chatMessage = document.querySelector( ".chat-messages");
 const roomName = document.getElementById('room-name');
 const userList = document.getElementById('users');
-// const videoGrid = document.getElementById('video-grid');
-// const myVideo = document.createElement('video');
-// myVideo.muted = true;
+
 
 
 const socket = io(); 
@@ -16,10 +14,6 @@ const query = Qs.parse(location.search , {
 });
 
 console.log(query);
-
-
-
-
 
 //Sends the username and room to server
 socket.emit('joinRoom' ,query)
@@ -73,4 +67,12 @@ function outputUsers(users){
     ${users.map(user=>`<li>${user.username}</li>`).join('')}
     `;
 }
+//Prompt the user before leave chat room
+document.getElementById('leave-btn').addEventListener('click', () => {
+  const leaveRoom = confirm('Are you sure you want to leave the chatroom?');
+  if (leaveRoom) {
+    window.location = '../index.html';
+  } else {
+  }
+});
 

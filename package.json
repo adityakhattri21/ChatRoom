@@ -22,6 +22,7 @@
     "passport": "^0.6.0",
     "passport-github2": "^0.1.12",
     "peer": "^0.6.1",
+    "peerjs": "^1.4.7",
     "socket.io": "^4.5.4"
   },
   "devDependencies": {

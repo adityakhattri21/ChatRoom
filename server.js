@@ -1,17 +1,11 @@
-
-
-
-
-const cors = require('cors');
 const path = require("path");
 const http = require("http");
 const express = require("express");
 const socketio = require("socket.io");
 const formatMessage = require("./utils/messages");
-// const createAdapter = require("@socket.io/redis-adapter").createAdapter;
-// const redis = require("redis");
-// require("dotenv").config();
-// const { createClient } = redis;
+
+
+
 const {
   userJoin,
   getCurrentUser,
@@ -20,37 +14,31 @@ const {
 } = require("./utils/users");
 const app = require("./app")
 const server = http.createServer(app);
-const io = socketio(server,{
-    cors:{
-        origin:"*",
-        methods: ["GET" , "POST"]
-    }
+const io = socketio(server)
+
+
+const { ExpressPeerServer } = require("peer");
+const peerServer = ExpressPeerServer(server, {
+  debug: true,
 });
+
 
 
 // Set static folder
 
 const botName = "ChatCord Bot";
 
-// (async () => {
-//   pubClient = createClient({ url: "redis://127.0.0.1:6379" });
-//   await pubClient.connect();
-//   subClient = pubClient.duplicate();
-//   io.adapter(createAdapter(pubClient, subClient));
-// })();
-
-// Run when client connects
 io.on("connection", (socket) => {
   console.log("Connection");
   socket.on("joinRoom", (queryString) => {
     const user = userJoin(socket.id, queryString.username, queryString.room);
-    console.log(socket.id);
-    console.log(user.room);
+    // console.log(socket.id);
+    // console.log(user.room);
     socket.join(user.room);
 
     // Welcome current user
     socket.emit("message", formatMessage(botName, "Welcome to ChatCord!"));
-    socket.emit('message' , formatMessage(user.username,socket.id));
+    // socket.emit('message' , formatMessage(user.username,socket.id));
     // Broadcast when a user connects
     socket.broadcast
       .to(user.room)
