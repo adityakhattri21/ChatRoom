@@ -9,7 +9,7 @@ app.use(cors())
 
 app.use(bodyParser.urlencoded({extended: true}));
 
-app.use(express.static('public'));
+app.use(express.static("public"));
 
 app.get("/index" , (req,res)=>{
     res.sendFile(__dirname + '/public/index.html');
